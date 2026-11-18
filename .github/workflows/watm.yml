@@ -1,13 +1,13 @@
 name: "watm"
 
 on:
-  # push:
-  #   branches: [ "master" ]
-  #   paths:
-  #     - '**'
-  #     - '!tinygo/snippets/**' # ignore changes to snippets since they are not impacting the module
-  #     - '!**.md' # ignore changes to markdown files since they are not part of the code
-  #     - '!**/LICENSE*'
+  push:
+    branches: [ "master" ]
+    paths:
+      - '**'
+      - '!tinygo/snippets/**' # ignore changes to snippets since they are not impacting the module
+      - '!**.md' # ignore changes to markdown files since they are not part of the code
+      - '!**/LICENSE*'
   pull_request:
     branches: [ "master" ]
     paths:
@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [ "1.21.x", "1.22.x" ] # we support the latest 2 stable versions of Go
+        go: [ "1.26.x", "1.27.x" ] # we support the latest 2 stable versions of Go
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version: ${{ matrix.go }}
       - run: go version
@@ -43,15 +43,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        tinygo: [ "0.32.0" ] # latest tinygo version ONLY (1)
-        go: [ "1.21.x", "1.22.x" ] # latest 2 stable versions of Go. TODO: bump to 1.22.x once tinygo support added.
+        tinygo: [ "0.32.0" ] # same as release.yml
+        go: [ "1.21.x", "1.22.x" ] # the newest 2 Go versions TinyGo 0.32.0 supports
         examples: [ "plain", "reverse", "utls" ] # Add examples here per ones under tinygo/v0/examples
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-go@v7
       with:
         go-version: ${{ matrix.go }}
-    - uses: acifani/setup-tinygo@v2
+    - uses: acifani/setup-tinygo@v3
       with:
         tinygo-version: ${{ matrix.tinygo }}
     - name: Build
@@ -66,15 +66,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        tinygo: [ "0.32.0" ] # latest tinygo version ONLY (1)
-        go: [ "1.21.x", "1.22.x" ] # latest 2 stable versions of Go. TODO: bump to 1.22.x once tinygo support added.
+        tinygo: [ "0.32.0" ] # same as release.yml
+        go: [ "1.21.x", "1.22.x" ] # the newest 2 Go versions TinyGo 0.32.0 supports
         examples: [ "plain", "reverse", "utls" ] # Add examples here per ones under tinygo/v0/examples
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-go@v5
+    - uses: actions/checkout@v7
+    - uses: actions/setup-go@v7
       with:
         go-version: ${{ matrix.go }}
-    - uses: acifani/setup-tinygo@v2
+    - uses: acifani/setup-tinygo@v3
       with:
         tinygo-version: ${{ matrix.tinygo }}
     - name: Build
